@@ -195,7 +195,34 @@ br {
     25% {text-shadow: 0 0 20px #5d09cc, 0 0 30px #3e0885, 0 0 40px #3e0885, 0 0 50px #3e0885, 0 0 60px #3e0885, 0 0 70px #3e0885, 0 0 80px #3e0885;}
     100% {}
   }</style>
-    <script src="tilt-card.js"></script>
+    <script>
+        setTimeout(() => {
+    document.querySelectorAll('section').forEach(card => {
+        card.style.transition = 'transform 0.3s ease-out';
+        
+        let lastX = 0, lastY = 0;
+    
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+    
+            if (lastX !== x || lastY !== y) {
+                lastX = x;
+                lastY = y;
+    
+                const xRotation = 1 * ((x - rect.width / 2) / rect.width);
+                const yRotation = -6 * ((y - rect.height / 2) / rect.height);
+                const rotation = `perspective(1000px) rotateX(${yRotation}deg) rotateY(${xRotation}deg)`;
+                card.style.transform = rotation;
+            }
+        });
+    
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+        });
+    });
+}, 100);</script>
     <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
     <meta property="og:title" content="BR1CK">
